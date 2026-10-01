@@ -12,6 +12,10 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="img/buddy.webp">
+<meta property="og:url" content="https://orcules.github.io/vidbuddy/">
+<link rel="canonical" href="https://orcules.github.io/vidbuddy/">
+<link rel="alternate" hreflang="he" href="https://orcules.github.io/vidbuddy/">
+<link rel="alternate" hreflang="en" href="https://orcules.github.io/vidbuddy/en/">
 <title>VidBuddy: הסרטון הזה נעשה בצ׳אט אחד</title>
 <meta name="description" content="VidBuddy: עורך וידאו ב-AI. מסבירים במילים שלכם מה רוצים, ומקבלים סרטון גמור. רשימת המתנה לקבוצה מצומצמת.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,6 +73,9 @@
     border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; white-space: nowrap; }
   .rec i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); animation: rec 1.6s steps(2, jump-none) infinite; }
   @keyframes rec { 50% { opacity: 0.25; } }
+  .nav { display: flex; align-items: center; gap: 10px; }
+  .lang { font: 500 14px/1 var(--latin); color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; }
+  .lang:hover { border-color: rgba(242, 181, 68, 0.5); }
 
   /* ---------------------------------------------------------------- hero */
   .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(28px, 5vw, 72px); align-items: center;
@@ -251,7 +258,7 @@
   <div class="wrap">
     <header class="bar">
       <div class="mark"><img src="img/buddy.webp" alt="" width="34" height="34"><span>Vid<b>Buddy</b></span></div>
-      <div class="rec"><i></i>רשימת המתנה פתוחה</div>
+      <nav class="nav"><div class="rec"><i></i>רשימת המתנה פתוחה</div><a class="lang" href="en/" lang="en" dir="ltr" hreflang="en">English</a></nav>
     </header>
 
     <!-- ============================================================ hero -->

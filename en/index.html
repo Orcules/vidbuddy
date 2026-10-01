@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VidBuddy: This film was made in one chat">
+<meta property="og:description" content="An AI video editor you talk to. Describe what you want in your own words and get a finished film. Early-access waitlist for a small group.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://orcules.github.io/vidbuddy/en/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/buddy.webp">
+<meta property="og:url" content="https://orcules.github.io/vidbuddy/en/">
+<link rel="canonical" href="https://orcules.github.io/vidbuddy/en/">
+<link rel="alternate" hreflang="he" href="https://orcules.github.io/vidbuddy/">
+<link rel="alternate" hreflang="en" href="https://orcules.github.io/vidbuddy/en/">
+<title>VidBuddy: This film was made in one chat</title>
+<meta name="description" content="VidBuddy is an AI video editor you talk to. Describe what you want in your own words and get a finished film. Waitlist for a small early group.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Geist:wght@300..800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  /* The VidBuddy world (warm studio dark, gold light, cream type), here cut like a film's production book. */
+  :root {
+    color-scheme: dark;
+    --bg: #0d0a07;
+    --bg-2: #15100b;
+    --panel: #1b150f;
+    --panel-2: #241c13;
+    --line: rgba(242, 181, 68, 0.16);
+    --line-soft: rgba(244, 236, 223, 0.08);
+    --ink: #f4ecdf;
+    --muted: #a8998a;
+    --dim: #6f6357;
+    --gold: #f2b544;
+    --gold-2: #ffd88a;
+    --gold-ink: #1d1406;
+    --client: #26303d;
+    --client-ink: #dfe8f3;
+    --red: #ff5a4f;
+    --gold-grad: linear-gradient(180deg, #fff1c4 0%, #f6c65a 42%, #d9951f 76%, #a8660f 100%);
+    /* the seven acts, light to dark and back */
+    --a1: #e9b45a; --a2: #9c8f7e; --a3: #ff5a4f; --a4: #d0743f; --a5: #6f8fb0; --a6: #e6c98f; --a7: #8f84c6;
+    --display: "Archivo", "Arial Narrow", sans-serif;
+    --body: "Geist", "Inter", "Segoe UI", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+  html, body { background: var(--bg); }
+  body { color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .page { padding-inline: clamp(16px, 4vw, 48px); overflow-x: clip; position: relative; }
+  .wrap { max-width: 1160px; margin-inline: auto; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  a { color: var(--gold-2); }
+  :focus-visible { outline: 2px solid var(--gold-2); outline-offset: 3px; border-radius: 8px; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+  img { display: block; max-width: 100%; }
+  .disp { font-family: var(--display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; letter-spacing: -0.005em; }
+
+  .light { position: absolute; inset: 0 0 auto 0; height: 980px; pointer-events: none; z-index: 0;
+    background: radial-gradient(60% 55% at 30% 0%, rgba(255, 196, 102, 0.20), transparent 70%),
+                radial-gradient(40% 40% at 85% 30%, rgba(242, 181, 68, 0.07), transparent 70%); }
+  .page > .wrap { position: relative; z-index: 1; }
+
+  /* ---------------------------------------------------------------- top bar */
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; }
+  .mark { font-weight: 800; font-size: 26px; letter-spacing: -0.035em; display: flex; align-items: center; gap: 10px; }
+  .mark img { width: 34px; height: 34px; border-radius: 10px; object-fit: cover; object-position: 50% 40%; border: 1px solid var(--line); }
+  .mark b { font-weight: 800; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .bar nav { display: flex; align-items: center; gap: 10px; }
+  .pill { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.12em; color: var(--muted); display: flex; align-items: center; gap: 9px;
+    border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; white-space: nowrap; text-decoration: none; text-transform: uppercase; }
+  a.pill { color: var(--ink); letter-spacing: 0.02em; text-transform: none; font-family: system-ui, "Segoe UI", Arial, sans-serif; font-size: 14px; }
+  a.pill:hover { border-color: rgba(242, 181, 68, 0.5); }
+  .pill i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); animation: rec 1.6s steps(2, jump-none) infinite; }
+  @keyframes rec { 50% { opacity: 0.25; } }
+
+  /* ---------------------------------------------------------------- hero */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(28px, 5vw, 72px); align-items: center;
+    padding-block: clamp(20px, 5vw, 56px) clamp(56px, 8vw, 96px); }
+  .tc { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; color: var(--gold); display: block; margin-bottom: 18px; }
+  .tc span { color: var(--muted); }
+  .hero h1 { font-size: clamp(64px, 9.4vw, 136px); line-height: 0.86; }
+  .hero h1 em, h2 em { font-style: normal; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { margin-top: 24px; font-size: clamp(17px, 1.6vw, 20px); max-width: 33em; font-weight: 300; }
+  .lede strong { font-weight: 600; color: var(--gold-2); }
+
+  /* the email form = VidBuddy's own chat composer */
+  .composer { margin-top: 30px; display: flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px; max-width: 560px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transition: border-color 0.2s, box-shadow 0.2s; }
+  .composer:focus-within { border-color: rgba(242, 181, 68, 0.55); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 0 4px rgba(242, 181, 68, 0.10); }
+  .composer .plus { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--dim); font-size: 22px; }
+  .composer input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--ink); font: 500 17px/1.2 var(--body); padding: 12px 4px; outline: none; }
+  .composer input::placeholder { color: var(--dim); }
+  .composer button { flex: none; display: flex; align-items: center; gap: 10px; border: 0; cursor: pointer; border-radius: 999px; padding: 13px 14px 13px 20px;
+    background: var(--gold-grad); color: var(--gold-ink); font: 700 16px/1 var(--body); box-shadow: 0 8px 24px rgba(242, 181, 68, 0.28); transition: transform 0.15s; }
+  .composer button:hover { transform: translateY(-1px); }
+  .composer button:active { transform: translateY(1px); }
+  .composer button svg { width: 22px; height: 22px; padding: 4px; border-radius: 50%; background: rgba(29, 20, 6, 0.14); }
+  .composer button[disabled] { opacity: 0.7; cursor: progress; }
+  .note { margin-top: 12px; font-size: 14px; color: var(--muted); max-width: 560px; }
+  .note.err { color: #ffb4a8; }
+  .note.preview { color: var(--gold-2); }
+  .reply { margin-top: 30px; max-width: 560px; display: flex; gap: 12px; align-items: flex-end; animation: pop 0.45s cubic-bezier(.2, 1.4, .4, 1) both; }
+  .reply img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; object-position: 50% 38%; border: 1px solid var(--line); flex: none; }
+  .reply div { background: var(--panel-2); border: 1px solid var(--line); border-radius: 22px 22px 22px 6px; padding: 14px 18px; font-size: 16.5px; text-align: left; }
+  .reply b { color: var(--gold-2); font-weight: 600; }
+  .reply bdi { font-family: var(--mono); font-size: 14.5px; }
+  @keyframes pop { from { transform: translateY(10px) scale(0.96); } to { transform: none; } }
+
+  /* the film in a phone */
+  .stage { justify-self: center; width: min(100%, 380px); }
+  .phone { position: relative; aspect-ratio: 9 / 19.2; border-radius: 52px; padding: 11px; background: linear-gradient(145deg, #3a2f22, #15100a 40%, #2b2218);
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 216, 138, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transform: rotate(2.5deg); }
+  .phone::before { content: ""; position: absolute; top: 22px; left: 50%; width: 96px; height: 26px; translate: -50% 0; border-radius: 20px; background: #050403; z-index: 2; pointer-events: none; }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: #000; }
+  .screen video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .watch { position: absolute; bottom: 20px; left: 50%; translate: -50% 0; z-index: 3; display: flex; align-items: center; gap: 10px; border: 0; cursor: pointer;
+    background: var(--gold-grad); color: var(--gold-ink); border-radius: 999px; padding: 12px 20px 12px 14px; font: 700 15px/1 var(--body);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(242, 181, 68, 0.3); white-space: nowrap; }
+  .watch svg { width: 24px; height: 24px; padding: 6px; border-radius: 50%; background: rgba(29, 20, 6, 0.16); }
+  .watch small { font: 500 12.5px/1 var(--mono); opacity: 0.7; }
+  .slate { margin-top: 22px; font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.1em; color: var(--muted); text-align: center; }
+  .slate b { color: var(--gold); font-weight: 500; }
+  .advice { margin-top: 6px; font-size: 13px; color: var(--dim); text-align: center; }
+
+  /* ---------------------------------------------------------------- sections */
+  section { padding-block: clamp(56px, 8vw, 104px); border-top: 1px solid var(--line-soft); }
+  .kicker { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.16em; color: var(--gold); margin-bottom: 14px; display: block; text-transform: uppercase; }
+  h2 { font-size: clamp(50px, 7.2vw, 98px); line-height: 0.88; }
+  .sub { margin-top: 18px; color: var(--muted); max-width: 38em; font-size: 18px; }
+
+  /* the brief and the notes */
+  .brief { margin-top: 44px; display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(24px, 4vw, 48px); align-items: start; }
+  .thread { background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 28px; padding: 22px; display: grid; gap: 12px; }
+  .thread .who { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--line-soft); margin-bottom: 4px; font-weight: 600; }
+  .thread .who img { width: 30px; height: 30px; border-radius: 9px; object-fit: cover; object-position: 50% 40%; }
+  .thread .who small { margin-left: auto; color: var(--dim); font: 400 11.5px var(--mono); letter-spacing: 0.08em; }
+  .me { justify-self: end; background: var(--gold-grad); color: var(--gold-ink); border-radius: 20px 6px 20px 20px; padding: 11px 16px; font-weight: 500; max-width: 90%; }
+  .bud { justify-self: start; display: flex; gap: 10px; align-items: flex-end; max-width: 92%; }
+  .bud img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: 50% 38%; border: 1px solid var(--line); flex: none; }
+  .bud span { background: var(--panel-2); border: 1px solid var(--line); border-radius: 20px 20px 20px 6px; padding: 11px 15px; }
+  .rounds { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .rounds h3 { font-family: var(--mono); font-size: 12.5px; font-weight: 500; letter-spacing: 0.16em; color: var(--muted); padding: 14px 0 6px; text-transform: uppercase; }
+  .round { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line-soft); }
+  .round b { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--gold); letter-spacing: 0.1em; padding-top: 4px; }
+  .round q { display: block; font-family: var(--display); font-stretch: 75%; font-weight: 700; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.1; quotes: "\201C" "\201D"; }
+  .round p { margin-top: 8px; color: var(--muted); font-size: 16px; }
+  .round p::before { content: "\2192\00a0"; color: var(--gold); }
+
+  /* chapters 01-05 */
+  .chapter { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(20px, 4vw, 56px); align-items: end; }
+  .chapter .num { font-family: var(--mono); font-size: 13px; letter-spacing: 0.16em; color: var(--gold); display: block; margin-bottom: 12px; }
+  .chapter h3 { font-family: var(--display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; font-size: clamp(40px, 5vw, 66px); line-height: 0.9; }
+  .chapter p { color: var(--muted); font-size: 17.5px; max-width: 34em; }
+  .chapter p strong { color: var(--ink); font-weight: 500; }
+
+  /* 01: the acts and the beats */
+  .acts { margin-top: 36px; display: flex; gap: 3px; }
+  .act { min-width: 0; border-top: 4px solid var(--c); padding: 10px 8px 0 0; }
+  .act b { display: block; font: 500 11px/1 var(--mono); letter-spacing: 0.12em; color: var(--c); }
+  .act span { display: block; margin-top: 6px; font-size: 14px; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .act small { display: block; margin-top: 3px; font: 400 11.5px var(--mono); color: var(--dim); }
+  .strip-wrap { position: relative; margin-top: 30px; }
+  .strip { display: grid; grid-auto-flow: column; grid-auto-columns: 232px; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 14px;
+    scrollbar-width: thin; scrollbar-color: rgba(242, 181, 68, 0.35) transparent; }
+  .beat { scroll-snap-align: start; background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  .beat img { aspect-ratio: 9 / 16; object-fit: cover; width: 100%; height: auto; }
+  .beat div { padding: 13px 14px 16px; display: grid; gap: 7px; }
+  .beat .id { font: 500 11.5px/1 var(--mono); letter-spacing: 0.1em; color: var(--c, var(--gold)); }
+  .beat h4 { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.2; }
+  .beat p { font-size: 14px; color: var(--muted); line-height: 1.45; }
+  .beat p.hear { font: 400 12.5px/1.5 var(--mono); color: #cdbfae; border-top: 1px dashed var(--line-soft); padding-top: 8px; }
+  .beat p.hear::before { content: "HEAR  "; color: var(--dim); white-space: pre; }
+  .arrows { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }
+  .arrows button { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--panel); color: var(--ink); cursor: pointer; font-size: 18px; }
+  .arrows button:hover { border-color: rgba(242, 181, 68, 0.5); }
+
+  /* 02: storyboard frame -> final frame */
+  .pairs { margin-top: 36px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 22px; padding: 10px; }
+  .pair figure { margin: 0; position: relative; border-radius: 14px; overflow: hidden; }
+  .pair img { aspect-ratio: 9 / 16; object-fit: cover; width: 100%; height: auto; }
+  .pair figcaption { position: absolute; top: 10px; left: 10px; font: 500 11.5px/1 var(--mono); letter-spacing: 0.1em; padding: 6px 8px; border-radius: 7px; background: rgba(13, 10, 7, 0.78); color: var(--ink); }
+  .pair figure + figure figcaption { background: var(--gold); color: var(--gold-ink); }
+  .pair p { grid-column: 1 / -1; padding: 6px 6px 4px; font-size: 15px; color: var(--muted); }
+  .pair p b { color: var(--ink); font-weight: 600; }
+
+  /* 03: cast, places, the camel, the seat lock */
+  .cast { margin-top: 36px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .sheet { margin: 0; position: relative; border-radius: 16px; overflow: hidden; background: #8d8d8b; border: 1px solid var(--line-soft); }
+  .sheet img { width: 100%; height: auto; aspect-ratio: 2688 / 1520; object-fit: cover; }
+  .sheet figcaption { position: absolute; left: 10px; bottom: 10px; font: 600 13.5px/1 var(--body); padding: 7px 10px; border-radius: 8px; background: rgba(13, 10, 7, 0.82); }
+  .sheet figcaption small { font: 400 11px var(--mono); color: var(--muted); letter-spacing: 0.08em; margin-left: 6px; }
+  .world { margin-top: 14px; display: grid; grid-template-columns: repeat(3, minmax(0, 0.7fr)) minmax(0, 1.3fr); gap: 14px; }
+  .plate { margin: 0; position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--line-soft); }
+  .plate img { width: 100%; height: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+  .plate figcaption { position: absolute; left: 10px; bottom: 10px; font: 500 11.5px/1 var(--mono); letter-spacing: 0.1em; padding: 6px 8px; border-radius: 7px; background: rgba(13, 10, 7, 0.8); text-transform: uppercase; }
+  .lock { display: grid; gap: 14px; grid-template-rows: auto 1fr; }
+  .lock .prop { margin: 0; position: relative; border-radius: 16px; overflow: hidden; background: #c9c9c7; border: 1px solid var(--line-soft); }
+  .lock .prop img { width: 100%; height: auto; aspect-ratio: 2688 / 1300; object-fit: cover; }
+  .lock .prop figcaption { position: absolute; left: 10px; bottom: 10px; font: 500 11.5px/1 var(--mono); letter-spacing: 0.1em; padding: 6px 8px; border-radius: 7px; background: rgba(13, 10, 7, 0.82); text-transform: uppercase; }
+  .memo { background: #f3e8d2; color: #2a2016; border-radius: 16px; padding: 18px 20px; font-family: var(--mono); font-size: 14px; line-height: 1.55;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35); position: relative; }
+  .memo b { display: block; font-size: 11.5px; letter-spacing: 0.16em; color: #9a5a00; margin-bottom: 8px; font-weight: 500; }
+  .seats { display: flex; gap: 6px; margin: 12px 0 10px; }
+  .seats span { flex: 1; border: 1.5px solid #2a2016; border-radius: 8px 8px 4px 4px; padding: 7px 4px 6px; text-align: center; font-size: 12px; line-height: 1.25; }
+  .seats span em { display: block; font-style: normal; font-weight: 500; font-size: 13px; }
+  .seats .aisle { flex: 0.5; border: 0; border-left: 1.5px dashed rgba(42, 32, 22, 0.4); border-radius: 0; color: rgba(42, 32, 22, 0.55); font-size: 10.5px; writing-mode: vertical-rl; padding: 0; }
+  .memo small { display: block; color: #6b5a45; font-size: 12.5px; }
+
+  /* 04: a take document and the take it made */
+  .take { margin-top: 36px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+  .doc { position: relative; background: #f3e8d2; color: #2a2016; border-radius: 18px; padding: 22px 24px 26px; font: 400 13.5px/1.6 var(--mono);
+    max-height: 560px; overflow: hidden; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45); }
+  .doc::after { content: ""; position: absolute; inset: auto 0 0 0; height: 120px; background: linear-gradient(transparent, #f3e8d2 75%); pointer-events: none; }
+  .doc header { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1.5px solid #2a2016; padding-bottom: 10px; margin-bottom: 14px; font-weight: 500; letter-spacing: 0.08em; font-size: 12px; }
+  .doc h5 { margin: 14px 0 4px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.1em; color: #9a5a00; }
+  .doc p { margin: 0; }
+  .doc mark { background: rgba(242, 181, 68, 0.45); color: inherit; padding: 0 2px; border-radius: 3px; }
+  .doc ol { margin: 4px 0 0; padding-left: 20px; }
+  .doc .more { position: absolute; bottom: 16px; left: 24px; z-index: 1; font-size: 12px; color: #6b5a45; letter-spacing: 0.08em; }
+  .takeview { display: grid; gap: 14px; }
+  .ruler { display: flex; font: 400 11px var(--mono); color: var(--dim); letter-spacing: 0.06em; }
+  .ruler span { flex: var(--d); border-left: 1px solid var(--line); padding-left: 5px; }
+  .shots { display: flex; gap: 4px; height: 300px; }
+  .shots figure { flex: var(--d); margin: 0; min-width: 0; position: relative; border-radius: 10px; overflow: hidden; }
+  .shots figure:first-child { outline: 2px solid var(--gold); outline-offset: -2px; }
+  .shots img { width: 100%; height: 100%; object-fit: cover; }
+  .shotnames { display: flex; gap: 4px; }
+  .shotnames span { flex: var(--d); min-width: 0; font-size: 13px; line-height: 1.3; color: var(--muted); padding-right: 8px; }
+  .shotnames span:first-child { color: var(--gold-2); }
+  .checks { display: grid; gap: 10px; background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 18px; padding: 16px 18px; }
+  .checks li { list-style: none; display: flex; gap: 10px; font-size: 15px; color: var(--muted); }
+  .checks li::before { content: ""; flex: none; width: 18px; height: 18px; margin-top: 3px; border-radius: 50%; background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231d1406' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 12px no-repeat; }
+  .checks ul { margin: 0; padding: 0; display: grid; gap: 10px; }
+
+  /* 05: the edit */
+  .edit { margin-top: 36px; background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 24px; padding: 20px 20px 22px; }
+  .edit .top { display: flex; justify-content: space-between; font: 400 11.5px var(--mono); color: var(--dim); letter-spacing: 0.08em; margin-bottom: 10px; }
+  .reel { position: relative; display: flex; gap: 2px; height: 64px; }
+  .reel i { flex: var(--d); background: var(--c); border-radius: 3px; opacity: 0.85; min-width: 1px; transition: opacity 0.2s, transform 0.2s; }
+  .reel i:hover { opacity: 1; transform: scaleY(1.12); }
+  .head { position: absolute; top: -10px; bottom: -10px; left: 0; width: 2px; background: #fff; box-shadow: 0 0 12px rgba(255, 255, 255, 0.8); animation: play 16s linear infinite; pointer-events: none; }
+  .head::before { content: ""; position: absolute; top: -2px; left: -6px; border: 7px solid transparent; border-top-color: #fff; }
+  @keyframes play { from { left: 0%; } to { left: 100%; } }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; font-size: 13.5px; color: var(--muted); }
+  .legend span { display: flex; align-items: center; gap: 7px; }
+  .legend span::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+  .readout { margin-top: 12px; min-height: 1.5em; font: 400 13px var(--mono); color: var(--gold-2); }
+  .vo { margin-top: 22px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 22px; }
+  .vo h4 { margin: 0 0 12px; font: 500 12px var(--mono); letter-spacing: 0.16em; color: var(--muted); text-transform: uppercase; }
+  .vo li { list-style: none; padding: 12px 0; border-top: 1px solid var(--line-soft); }
+  .vo ul { margin: 0; padding: 0; }
+  .vo q { quotes: "\201C" "\201D"; font-size: 16.5px; }
+  .vo .cut q { color: var(--dim); text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; }
+  .vo small { display: block; margin-top: 5px; color: var(--muted); font-size: 14.5px; }
+  .vo .cut small::before { content: "\2192\00a0"; color: var(--gold); }
+  .stats { margin-top: 26px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+  .stats div { padding: 16px 12px 0 0; }
+  .stats b { display: block; font-family: var(--display); font-stretch: 62%; font-weight: 800; font-size: clamp(38px, 4.4vw, 58px); line-height: 1; color: var(--gold-2); }
+  .stats span { display: block; margin-top: 6px; font-size: 14px; color: var(--muted); }
+
+  /* who it's for */
+  .three { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+  .three div { padding: 26px 28px 8px 0; }
+  .three div + div { padding-left: 28px; border-left: 1px solid var(--line-soft); }
+  .three h3 { font-family: var(--display); font-stretch: 62%; font-weight: 800; text-transform: uppercase; font-size: 42px; line-height: 0.95; }
+  .three p { margin-top: 12px; color: var(--muted); }
+
+  /* founder note */
+  .why { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .why figure { margin: 0; border-radius: 26px; overflow: hidden; aspect-ratio: 4 / 5; border: 1px solid var(--line-soft); }
+  .why figure img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 60%; }
+  .why blockquote { margin: 0; font-size: clamp(18px, 1.7vw, 21px); line-height: 1.7; font-weight: 300; max-width: 34em; display: grid; gap: 16px; }
+  .why blockquote strong { font-weight: 600; color: var(--gold-2); }
+  .why cite { display: block; margin-top: 8px; font-style: normal; font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--muted); }
+
+  /* last call */
+  .last { text-align: center; }
+  .last h2 { font-size: clamp(58px, 8.6vw, 124px); }
+  .last .sub { margin-inline: auto; }
+  .last .composer, .last .note, .last .reply { margin-inline: auto; }
+  .last .note { text-align: center; }
+  footer { padding-block: 34px 44px; border-top: 1px solid var(--line-soft); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 32px;
+    font-size: 13px; color: var(--dim); }
+  footer p { max-width: 62em; line-height: 1.55; }
+  footer nav { display: flex; gap: 16px; align-items: start; font-family: var(--mono); letter-spacing: 0.06em; white-space: nowrap; }
+  footer a { color: var(--muted); }
+
+  /* ---------------------------------------------------------------- narrow screens */
+  @media (max-width: 960px) {
+    .hero, .brief, .chapter, .take, .why, .vo { grid-template-columns: minmax(0, 1fr); }
+    .stage { width: min(100%, 320px); }
+    .pairs { grid-template-columns: minmax(0, 1fr); }
+    .cast { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .world { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .lock { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .three { grid-template-columns: minmax(0, 1fr); }
+    .three div, .three div + div { padding: 22px 0; border-left: 0; border-bottom: 1px solid var(--line-soft); }
+    .why figure { aspect-ratio: 16 / 10; }
+    footer { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .acts { flex-direction: column; gap: 8px; }
+    .act { flex: none !important; border-top: 0; border-left: 4px solid var(--c); padding: 2px 0 2px 10px; display: grid; grid-template-columns: 52px 1fr auto; align-items: baseline; gap: 8px; }
+    .act span { margin: 0; } .act small { margin: 0; }
+    .cast { grid-template-columns: minmax(0, 1fr); }
+    .world { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .lock { grid-template-columns: minmax(0, 1fr); }
+    .shots { height: 200px; }
+    .shotnames span { font-size: 11px; }
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 520px) {
+    .composer { flex-wrap: wrap; border-radius: 26px; }
+    .composer .plus { display: none; }
+    .composer input { flex-basis: 100%; padding: 12px 14px; }
+    .composer button { width: 100%; justify-content: center; }
+    .bar .pill:not(a) { display: none; }
+    .strip { grid-auto-columns: 74%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body style="margin:0">
+
+
+<div class="page" lang="en" dir="ltr">
+  <div class="light" aria-hidden="true"></div>
+  <div class="wrap">
+    <header class="bar">
+      <div class="mark"><img src="img/buddy.webp" alt="" width="34" height="34"><span>Vid<b>Buddy</b></span></div>
+      <nav>
+        <span class="pill"><i></i>Waitlist open</span>
+        <a class="pill" href="../" lang="he" dir="rtl" hreflang="he">עברית</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ============================================================ hero -->
+      <div class="hero">
+        <div>
+          <span class="tc">00:00:00:00 <span>· FZ1073_FINAL.mp4</span></span>
+          <h1 class="disp">This film was made in <em>one chat.</em></h1>
+          <p class="lede">VidBuddy is a video editor you talk to. Describe what you want in your own words, the way you'd brief an editor, and it makes the film: <strong>story, storyboard, cast, shots, voice, music and edit.</strong></p>
+          <div class="signup" data-id="1">
+            <form class="composer" novalidate>
+              <span class="plus" aria-hidden="true">+</span>
+              <label class="sr" for="email1">Your email address</label>
+              <input id="email1" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Your email…" required>
+              <input class="hp" id="company1" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <button type="submit">Save my spot
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              </button>
+            </form>
+            <p class="note" aria-live="polite">A small group gets in first. No spam: one email, when it's your turn.</p>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="phone">
+            <div class="screen">
+              <video id="film" src="teaser.mp4" poster="img/poster.webp" autoplay muted loop playsinline preload="auto" aria-label="FZ1073, a short film made entirely with VidBuddy"></video>
+              <button class="watch" id="watch" type="button">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>
+                Watch the film <small>2:58</small>
+              </button>
+            </div>
+          </div>
+          <p class="slate"><b>FZ1073</b> · 2:58 · MADE WITH VIDBUDDY</p>
+          <p class="advice">A dramatization of a real flight. Contains violence.</p>
+        </div>
+      </div>
+
+      <!-- ============================================================ behind the film -->
+      <section>
+        <span class="kicker">Behind the film</span>
+        <h2 class="disp">One chat. <em><span style="white-space:nowrap">Sixty-eight</span> shots.</em></h2>
+        <p class="sub">Everything below is from this film's actual production: what was asked, what VidBuddy wrote, drew, cast, shot and cut, and how the notes changed it.</p>
+
+        <div class="brief">
+          <div class="thread" aria-label="The first messages">
+            <div class="who"><img src="img/buddy.webp" alt="">VidBuddy<small>30 SEP · 08:12</small></div>
+            <p class="me">There's a post going viral about this morning's flight FZ1073. Make a film about it.</p>
+            <div class="bud"><img src="img/buddy.webp" alt="Buddy"><span>Read it. Two things in the post don't match the reports: the pilots who took over were off-duty flydubai crew, and the jet landed in Tabuk. I'll build the story on what was reported.</span></div>
+            <p class="me">An emotional action film. In English.</p>
+            <div class="bud"><img src="img/buddy.webp" alt="Buddy"><span>Story and storyboard first. You'll see every beat before anything is shot.</span></div>
+          </div>
+          <div class="rounds">
+            <h3>Notes, in plain words</h3>
+            <div class="round"><b>CUT 3</b><div><q>Visually beautiful, but the story is broken.</q><p>Rebuilt as one linear story, seen through a six-year-old in seat 6A.</p></div></div>
+            <div class="round"><b>CUT 4</b><div><q>Make it a crazy Hollywood film. It can run past two minutes.</q><p>Seven acts, 68 beats, all storyboarded before a single new shot.</p></div></div>
+            <div class="round"><b>FINAL</b><div><q>Amazing, but the action is missing.</q><p>New takes for the forced cockpit door, the fight and the dive, and a new score cut to every hit.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 01 story -->
+      <section>
+        <div class="chapter">
+          <div><span class="num">01 · STORY &amp; STORYBOARD</span><h3>You approve the story before a single shot exists.</h3></div>
+          <p>VidBuddy writes the film as acts and beats: <strong>what we see, what we hear, how long it holds.</strong> You read it like a script and change it in words. Nothing is generated until you say go.</p>
+        </div>
+
+        <div class="acts" aria-label="The seven acts">
+          <div class="act" style="--c:var(--a1);flex:18.24"><b>ACT 1</b><span>Boarding</span><small>0:18</small></div>
+          <div class="act" style="--c:var(--a2);flex:14"><b>ACT 2</b><span>Two hours in</span><small>0:14</small></div>
+          <div class="act" style="--c:var(--a3);flex:18.34"><b>ACT 3</b><span>The attack</span><small>0:18</small></div>
+          <div class="act" style="--c:var(--a4);flex:44.64"><b>ACT 4</b><span>The dive</span><small>0:45</small></div>
+          <div class="act" style="--c:var(--a5);flex:33.4"><b>ACT 5</b><span>The hour</span><small>0:33</small></div>
+          <div class="act" style="--c:var(--a6);flex:31.86"><b>ACT 6</b><span>Tabuk</span><small>0:32</small></div>
+          <div class="act" style="--c:var(--a7);flex:17.31"><b>ACT 7</b><span>That night</span><small>0:17</small></div>
+        </div>
+
+        <div class="strip-wrap">
+          <div class="strip" id="strip" tabindex="0" aria-label="Twelve of the film's 68 beats">
+            <article class="beat" style="--c:var(--a1)"><img src="img/b01.webp" alt="A girl with her nose and palm on the terminal glass, a plush camel under her arm" loading="lazy" width="540" height="960"><div><span class="id">BEAT 01 · 0:00 · BOARDING</span><h4>The glass</h4><p>Dubai, just after sunrise. The girl's nose and palm on the terminal glass, the camel under her arm. Outside, their 737 waits at the gate.</p><p class="hear">Terminal hush. The score begins.</p></div></article>
+            <article class="beat" style="--c:var(--a1)"><img src="img/b03.webp" alt="The captain crouches in the cockpit doorway to high-five the girl" loading="lazy" width="540" height="960"><div><span class="id">BEAT 03 · 0:06 · BOARDING</span><h4>Welcome aboard, Captain</h4><p>The captain crouches in the cockpit doorway and gives the girl a high five.</p><p class="hear">Captain: "Welcome aboard, Captain."</p></div></article>
+            <article class="beat" style="--c:var(--a1)"><img src="img/b05.webp" alt="The girl in the window seat buckles herself and the camel in while her mother laughs" loading="lazy" width="540" height="960"><div><span class="id">BEAT 05 · 0:12 · BOARDING</span><h4>Seatbelt for two</h4><p>Row 6, left side: the girl at the window buckles herself and the camel in. Her mother laughs.</p><p class="hear">Girl: "Seatbelt."</p></div></article>
+            <article class="beat" style="--c:var(--a2)"><img src="img/b09.webp" alt="By the forward lavatory, the girl hands her mother the camel" loading="lazy" width="540" height="960"><div><span class="id">BEAT 09 · 0:24 · TWO HOURS IN</span><h4>Don't drop him</h4><p>A step from the cockpit door, the girl hands her mother the camel before she goes in.</p><p class="hear">Girl: "Don't drop him." Mother: "I won't."</p></div></article>
+            <article class="beat" style="--c:var(--a3)"><img src="img/b14.webp" alt="The mother's palm flat on the cockpit door, the camel in her arm" loading="lazy" width="540" height="960"><div><span class="id">BEAT 14 · 0:35 · THE ATTACK</span><h4>Palm on the door</h4><p>The mother's palm flat on the cockpit door.</p><p class="hear">Shouting behind it.</p></div></article>
+            <article class="beat" style="--c:var(--a4)"><img src="img/b24.webp" alt="A screaming woman as a water bottle and a paper cup float in front of her" loading="lazy" width="540" height="960"><div><span class="id">BEAT 24 · 0:56 · THE DIVE</span><h4>Weightless</h4><p>For a second everything floats: a phone, a water bottle, a paper cup.</p><p class="hear">Screams. The engines howling.</p></div></article>
+            <article class="beat" style="--c:var(--a4)"><img src="img/b36.webp" alt="A man in a navy sweater flies the jet from the captain's seat" loading="lazy" width="540" height="960"><div><span class="id">BEAT 36 · 1:20 · THE DIVE</span><h4>I have control</h4><p>The man from 1C drops into the captain's seat and hauls the jet out of the dive.</p><p class="hear">Man from 1C: "I have control!"</p></div></article>
+            <article class="beat" style="--c:var(--a5)"><img src="img/b46.webp" alt="The girl under a blanket across her mother's lap by the window" loading="lazy" width="540" height="960"><div><span class="id">BEAT 46 · 1:49 · THE HOUR</span><h4>Are we going home?</h4><p>The girl curled across her mother's lap under a blanket. The seatback screen is dead.</p><p class="hear">Girl: "Ima… are we going home?"</p></div></article>
+            <article class="beat" style="--c:var(--a5)"><img src="img/b50.webp" alt="A grey fighter jet outside the window, the girl's curls in the foreground" loading="lazy" width="540" height="960"><div><span class="id">BEAT 50 · 1:58 · THE HOUR</span><h4>Whose jet?</h4><p>A grey fighter slides in off the wingtip. Nobody knows whose it is.</p><p class="hear">Jet roar.</p></div></article>
+            <article class="beat" style="--c:var(--a6)"><img src="img/b55.webp" alt="The airliner on final over the desert, fire trucks racing along the runway" loading="lazy" width="540" height="960"><div><span class="id">BEAT 55 · 2:13 · TABUK</span><h4>Unknown runway</h4><p>Long lens: the jet on final over empty desert. Fire trucks race along the runway.</p><p class="hear">Narrator: "…lands safely in Tabuk, Saudi Arabia."</p></div></article>
+            <article class="beat" style="--c:var(--a6)"><img src="img/b62.webp" alt="The father lifts the girl onto his shoulders in the aisle as she claps" loading="lazy" width="540" height="960"><div><span class="id">BEAT 62 · 2:33 · TABUK</span><h4>On his shoulders</h4><p>The father lifts the girl onto his shoulders. She claps and sings; her mother laughs through tears.</p><p class="hear">The cabin sings: "Am Yisrael chai."</p></div></article>
+            <article class="beat" style="--c:var(--a7)"><img src="img/b64.webp" alt="The family asleep on an airport floor, the girl on her father's jacket with the camel" loading="lazy" width="540" height="960"><div><span class="id">BEAT 64 · 2:40 · THAT NIGHT</span><h4>The floor at Tabuk</h4><p>Evening, a small airport hall. The girl asleep on her father's jacket.</p><p class="hear">Quiet hall.</p></div></article>
+          </div>
+          <div class="arrows"><button type="button" data-dir="-1" aria-label="Previous beats">←</button><button type="button" data-dir="1" aria-label="Next beats">→</button></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 02 frames -->
+      <section>
+        <div class="chapter">
+          <div><span class="num">02 · FRAMES FIRST</span><h3>Every beat gets a frame before it gets footage.</h3></div>
+          <p>Each new beat is drawn as a still first: <strong>framing, light, wardrobe, who stands where.</strong> Fix it there, where a change is cheap. Left, the storyboard frame. Right, the same moment in the finished film.</p>
+        </div>
+        <div class="pairs">
+          <div class="pair"><figure><img src="img/sb_A1.webp" alt="Storyboard: the girl at the terminal glass" loading="lazy" width="540" height="960"><figcaption>STORYBOARD</figcaption></figure><figure><img src="img/b01.webp" alt="Final: the girl at the terminal glass" loading="lazy" width="540" height="960"><figcaption>FINAL</figcaption></figure><p><b>Beat 01.</b> The glass</p></div>
+          <div class="pair"><figure><img src="img/sb_A3.webp" alt="Storyboard: the captain's high five" loading="lazy" width="540" height="960"><figcaption>STORYBOARD</figcaption></figure><figure><img src="img/b03.webp" alt="Final: the captain's high five" loading="lazy" width="540" height="960"><figcaption>FINAL</figcaption></figure><p><b>Beat 03.</b> Welcome aboard, Captain</p></div>
+          <div class="pair"><figure><img src="img/sb_A8.webp" alt="Storyboard: the girl hands her mother the camel" loading="lazy" width="540" height="960"><figcaption>STORYBOARD</figcaption></figure><figure><img src="img/b09.webp" alt="Final: the girl hands her mother the camel" loading="lazy" width="540" height="960"><figcaption>FINAL</figcaption></figure><p><b>Beat 09.</b> Don't drop him</p></div>
+          <div class="pair"><figure><img src="img/sb_C4.webp" alt="Storyboard: a fighter jet outside the girl's window" loading="lazy" width="540" height="960"><figcaption>STORYBOARD</figcaption></figure><figure><img src="img/b50.webp" alt="Final: a fighter jet outside the girl's window" loading="lazy" width="540" height="960"><figcaption>FINAL</figcaption></figure><p><b>Beat 50.</b> Whose jet?</p></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 03 cast -->
+      <section>
+        <div class="chapter">
+          <div><span class="num">03 · CAST &amp; LOCATIONS</span><h3>Faces, costumes and places are designed once, then locked.</h3></div>
+          <p>Every character gets a reference sheet: <strong>front, back, face.</strong> Every place gets a plate. Each shot is generated against them, so the girl in the last shot is the girl in the first.</p>
+        </div>
+        <div class="cast">
+          <figure class="sheet"><img src="img/cast_daughter.webp" alt="Character sheet: a six-year-old girl with curly hair, front, back and face" loading="lazy" width="1200" height="679"><figcaption>The girl<small>6A</small></figcaption></figure>
+          <figure class="sheet"><img src="img/cast_mother.webp" alt="Character sheet: the mother, front, back and face" loading="lazy" width="1200" height="679"><figcaption>Her mother<small>6B</small></figcaption></figure>
+          <figure class="sheet"><img src="img/cast_father.webp" alt="Character sheet: the father, front, back and face" loading="lazy" width="1200" height="679"><figcaption>Her father<small>6C</small></figcaption></figure>
+          <figure class="sheet"><img src="img/cast_captain.webp" alt="Character sheet: the captain in a white pilot shirt, front, back and face" loading="lazy" width="1200" height="679"><figcaption>The captain</figcaption></figure>
+          <figure class="sheet"><img src="img/cast_offduty.webp" alt="Character sheet: an off-duty pilot in a navy sweater, front, back and face" loading="lazy" width="1200" height="679"><figcaption>The man in 1C<small>OFF DUTY</small></figcaption></figure>
+          <figure class="sheet"><img src="img/cast_attendant.webp" alt="Character sheet: a flight attendant in a blue jacket and orange neckerchief" loading="lazy" width="1200" height="679"><figcaption>The flight attendant</figcaption></figure>
+        </div>
+        <div class="world">
+          <figure class="plate"><img src="img/loc_gate.webp" alt="Location plate: the Dubai departure gate at sunrise" loading="lazy" width="600" height="800"><figcaption>The gate</figcaption></figure>
+          <figure class="plate"><img src="img/loc_aisle.webp" alt="Location plate: the 737 cabin aisle" loading="lazy" width="600" height="800"><figcaption>The aisle</figcaption></figure>
+          <figure class="plate"><img src="img/loc_row6.webp" alt="Location plate: row 6 by the window" loading="lazy" width="600" height="800"><figcaption>Row 6</figcaption></figure>
+          <div class="lock">
+            <figure class="prop"><img src="img/prop_camel.webp" alt="Prop sheet: a plush camel with a red and gold saddle cloth" loading="lazy" width="900" height="509"><figcaption>The camel · one toy, always with her</figcaption></figure>
+            <div class="memo">
+              <b>CONTINUITY · SEAT LOCK</b>
+              Row 6, left side of the aircraft. They never sit anywhere else.
+              <div class="seats" aria-hidden="true"><span><em>6A</em>girl</span><span><em>6B</em>mother</span><span><em>6C</em>father</span><span class="aisle">AISLE</span></div>
+              <small>Written into every take that shows row 6.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 04 takes -->
+      <section>
+        <div class="chapter">
+          <div><span class="num">04 · SHOTS</span><h3>Each take is directed like a page of a screenplay.</h3></div>
+          <p>A take runs up to 30 seconds and holds several shots. Its direction runs to <strong>about 13,000 characters</strong>: lenses, light, blocking, headcount, wardrobe, and the exact lines with the second each is spoken.</p>
+        </div>
+        <div class="take">
+          <div class="doc" aria-label="An excerpt from the direction for take A">
+            <header><span>TAKE A · BOARDING</span><span>20 SEC · 5 SHOTS</span></header>
+            <h5>GEOGRAPHY</h5>
+            <p>The family's row is economy row 6 on the LEFT side of the aircraft: <mark>the girl always in the window seat 6A</mark>, the mother always in the middle seat 6B beside her, the father always in the aisle seat 6C.</p>
+            <h5>0.0–3.6 SEC · THE GIRL, CLOSE PROFILE, SLOW PUSH-IN</h5>
+            <p>The gate. <mark>85mm, shallow focus on her eye, one slow 5 percent push-in.</mark> The girl in close profile, facing screen-right, presses her nose and one small palm to the tall terminal window; her breath fogs a little circle on the glass. The camel is squeezed under her other arm. <mark>Low gold sun rims her curls.</mark> Beyond the glass, soft in the gold haze, the jet waits at the jet bridge. Mouth closed, a small smile. Sound: terminal hush, a soft two-tone chime, a distant jet whine. CUT TO</p>
+            <h5>LINE LIST</h5>
+            <ol>
+              <li>THE CAPTAIN (8.0–9.4): <mark>"Welcome aboard, Captain."</mark></li>
+              <li>THE GIRL (11.3–12.3): "Are you a pilot?"</li>
+              <li>THE RELIEF PILOT (13.2–14.0): "Not today."</li>
+            </ol>
+            <h5>3.6–6.6 SEC · THE FAMILY FROM BEHIND, MEDIUM WIDE, GIMBAL FOLLOW</h5>
+            <p>The glass-walled jet bridge, the low sun laying warm stripes across the carpet. Gimbal at hip height, one steady forward glide behind them…</p>
+            <span class="more">… 12,000 MORE CHARACTERS</span>
+          </div>
+          <div class="takeview">
+            <div class="ruler" aria-hidden="true"><span style="--d:3.6">0.0</span><span style="--d:3">3.6</span><span style="--d:4">6.6</span><span style="--d:4.2">10.6</span><span style="--d:5.2">14.8</span></div>
+            <div class="shots">
+              <figure style="--d:3.6"><img src="img/takeA_1.webp" alt="Shot 1: the girl in close profile at the glass" loading="lazy"></figure>
+              <figure style="--d:3"><img src="img/takeA_2.webp" alt="Shot 2: the family walking down the jet bridge from behind" loading="lazy"></figure>
+              <figure style="--d:4"><img src="img/takeA_3.webp" alt="Shot 3: the captain's high five" loading="lazy"></figure>
+              <figure style="--d:4.2"><img src="img/takeA_4.webp" alt="Shot 4: the man in 1C and the girl with her camel" loading="lazy"></figure>
+              <figure style="--d:5.2"><img src="img/takeA_5.webp" alt="Shot 5: the jet lifting off over the Dubai skyline" loading="lazy"></figure>
+            </div>
+            <div class="shotnames" aria-hidden="true"><span style="--d:3.6">Close profile</span><span style="--d:3">Gimbal follow</span><span style="--d:4">Two-shot</span><span style="--d:4.2">Rack focus</span><span style="--d:5.2">Tilt-up</span></div>
+            <div class="checks">
+              <ul>
+                <li>Drafted at 480p, checked, then finished at 1080p.</li>
+                <li>Every cut detected and every line transcribed, then matched against the direction.</li>
+                <li>Faces and seats compared with the cast sheets. A take that drops a beat is shot again.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ 05 edit -->
+      <section>
+        <div class="chapter">
+          <div><span class="num">05 · EDIT, VOICE &amp; SCORE</span><h3>Then it cuts the film to the story.</h3></div>
+          <p>Sixty-eight beats in seven acts, cut on the action. A narrator, music composed for this film and mixed under the dialogue, captions, and <strong>a master ready for any platform.</strong></p>
+        </div>
+        <div class="edit">
+          <div class="top" aria-hidden="true"><span>00:00</span><span>01:00</span><span>02:00</span><span>02:58</span></div>
+          <div class="reel" id="reel" role="img" aria-label="The edit: 68 beats in seven acts"><span class="head"></span></div>
+          <div class="legend" aria-hidden="true">
+            <span style="--c:var(--a1)">Boarding</span><span style="--c:var(--a2)">Two hours in</span><span style="--c:var(--a3)">The attack</span><span style="--c:var(--a4)">The dive</span>
+            <span style="--c:var(--a5)">The hour</span><span style="--c:var(--a6)">Tabuk</span><span style="--c:var(--a7)">That night</span>
+          </div>
+          <p class="readout" id="readout" aria-live="polite">Hover the reel to read the beats.</p>
+          <div class="vo">
+            <div>
+              <h4>The narrator keeps three lines</h4>
+              <ul>
+                <li><q>Dubai to Tel Aviv. One hundred and seventy-four passengers. Twenty-seven of them, children.</q><small>Over boarding.</small></li>
+                <li><q>The jet falls almost three miles. In under two minutes.</q><small>Over the dive.</small></li>
+                <li><q>At nine forty-five, flight ten seventy-three lands safely in Tabuk, Saudi Arabia.</q><small>Over the approach.</small></li>
+              </ul>
+            </div>
+            <div>
+              <h4>…and cuts the ones the picture says</h4>
+              <ul class="cut">
+                <li><q>On board, flying as passengers, are flydubai pilots.</q><small>"Are you a pilot?" "Not today." says it on screen.</small></li>
+                <li><q>In Israel, the hijack code lights up.</q><small>The cabin doesn't know, and neither do we.</small></li>
+                <li><q>Earlier that morning.</q><small>The film no longer jumps back in time.</small></li>
+              </ul>
+            </div>
+          </div>
+          <div class="stats">
+            <div><b>2:58</b><span>running time</span></div>
+            <div><b>68</b><span>beats</span></div>
+            <div><b>7</b><span>acts</span></div>
+            <div><b>5</b><span>music cues</span></div>
+            <div><b>−14</b><span>LUFS master</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ who it's for -->
+      <section>
+        <span class="kicker">Who it's for</span>
+        <h2 class="disp">For you. <em>And for me.</em></h2>
+        <div class="three">
+          <div><h3>You run a business</h3><p>Video without opening a project, waiting on a quote, or losing weeks.</p></div>
+          <div><h3>You make content</h3><p>Ship a lot, fast, in every format, without nights in the edit.</p></div>
+          <div><h3>You edit video</h3><p>More time for the craft, less for "just one more small change."</p></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ why -->
+      <section>
+        <div class="why">
+          <figure><img src="img/bow.webp" alt="Buddy, a small camera robot, takes a bow" loading="lazy"></figure>
+          <div>
+            <span class="kicker">Why I built it</span>
+            <blockquote>
+              <p>I'm a video editor, and a developer. I know the client conversations from the editor's side: people who want a great video and find out what it costs and how long it takes, and editors, me included, worn down by rounds of revisions.</p>
+              <p>A year ago I started building VidBuddy and brought everything I'd learned in editing and animation with me. What mattered most: <strong>the result shouldn't feel like AI.</strong> It should look like someone actually sat with it.</p>
+              <cite>FOUNDER · VIDEO EDITOR &amp; DEVELOPER</cite>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ last call -->
+      <section class="last">
+        <span class="kicker">Early access</span>
+        <h2 class="disp">Want to try it <em>first?</em></h2>
+        <p class="sub">Before it opens to everyone, a small group will use it and tell me what they really think, including what doesn't work.</p>
+        <div class="signup" data-id="2">
+          <form class="composer" novalidate>
+            <span class="plus" aria-hidden="true">+</span>
+            <label class="sr" for="email2">Your email address</label>
+            <input id="email2" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Your email…" required>
+            <input class="hp" id="company2" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit">Save my spot
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </form>
+          <p class="note" aria-live="polite">No spam. One email, when it's your turn.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>The film at the top was made entirely with VidBuddy. It is an AI reconstruction of flydubai flight FZ1073 on 30 September 2026, built from passenger accounts and officials' statements; characters are composites and some dialogue is dramatized. VidBuddy is not affiliated with or endorsed by flydubai.</p>
+      <nav><span>© 2026 VidBuddy</span><a href="../" lang="he" hreflang="he">עברית</a></nav>
+    </footer>
+  </div>
+</div>
+
+<script>
+  // Where sign-ups go: the Google Sheet's Apps Script web app (apps_script.gs), set by build.py for the hosted site.
+  // Left empty (the preview), the form runs but nothing is stored, and the page says so.
+  const WAITLIST_ENDPOINT = "https://script.google.com/macros/s/AKfycbz8jJcgBih9cdlMErbDFRhC88pQAaZh03Tj6iakeo6dYQpt6pYxNh0skTWxj3qOUA3tsg/exec";
+
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  async function store(email, source, company) {
+    if (!WAITLIST_ENDPOINT) return "preview";
+    // text/plain keeps it a "simple" request, so it also works with endpoints that don't answer CORS preflights
+    await fetch(WAITLIST_ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ email, source, company, at: new Date().toISOString() }) });
+    return "saved";
+  }
+
+  document.querySelectorAll(".signup").forEach((box) => {
+    const form = box.querySelector("form"), input = box.querySelector("input[type=email]"), button = box.querySelector("button"), note = box.querySelector(".note");
+    const idle = note.textContent;
+    input.addEventListener("input", () => { note.textContent = idle; note.className = "note"; });
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = input.value.trim();
+      if (!EMAIL.test(email)) {
+        note.textContent = "That needs a full email address, like name@gmail.com";
+        note.className = "note err";
+        input.focus();
+        return;
+      }
+      button.disabled = true;
+      try {
+        const how = await store(email, "en-" + box.dataset.id, box.querySelector(".hp").value);
+        const reply = document.createElement("div");
+        reply.className = "reply";
+        reply.innerHTML = '<img src="img/buddy.webp" alt=""><div><b>Got it! 🎬</b> Your spot is saved. I\'ll write to <bdi></bdi> when it\'s your turn.</div>';
+        reply.querySelector("bdi").textContent = email;
+        form.replaceWith(reply);
+        if (how === "preview") {
+          note.textContent = "Sign-ups aren't connected yet, so this email wasn't saved. Try again in a few minutes.";
+          note.className = "note preview";
+        } else {
+          note.textContent = "";
+        }
+      } catch (err) {
+        button.disabled = false;
+        note.textContent = "That didn't go through, probably a connection problem. Try again in a moment.";
+        note.className = "note err";
+      }
+    });
+  });
+
+  // the hero: a muted loop of the film; "Watch the film" plays the whole thing with sound, from the start
+  const film = document.getElementById("film"), watch = document.getElementById("watch");
+  watch.addEventListener("click", () => {
+    film.loop = false;
+    film.src = "film.mp4";
+    film.removeAttribute("poster");
+    film.muted = false;
+    film.controls = true;
+    film.play().catch(() => {});
+    watch.remove();
+  });
+
+  // 01: the beat strip's arrows
+  const strip = document.getElementById("strip");
+  document.querySelectorAll(".arrows button").forEach((b) =>
+    b.addEventListener("click", () => strip.scrollBy({ left: Number(b.dataset.dir) * (strip.clientWidth * 0.8), behavior: "smooth" })));
+
+  // 05: the reel, one block per beat (title, act, seconds in the final cut)
+  const BEATS = [["The glass",1,2.46],["The jet bridge",1,3.8],["Welcome aboard, Captain",1,2.8],["Not today",1,3.78],["Seatbelt for two",1,2.8],["Wheels up",1,2.6],["Two hours in",2,2.6],["I need the toilet",2,3.2],["Don't drop him",2,2.6],["Two men, one windscreen",2,2.6],["The hum stops",2,3.0],["The blade",3,1.3],["The strike",3,1.47],["Palm on the door",3,1.5],["Get in!",3,2.29],["Shoulders",3,2.8],["The gap",3,3.0],["Through",3,1.47],["Nose down",3,2.54],["The wrist",3,1.97],["The dive",4,2.6],["Ima!",4,2.2],["The bins burst",4,1.38],["Weightless",4,1.43],["The camel drops",4,0.76],["Air pocket",4,2.6],["Two empty seats",4,1.49],["The father",4,2.0],["Get him out",4,2.02],["The column",4,2.6],["I'm here",4,2.38],["Out",4,2.4],["Pinned",4,1.3],["Again",4,1.4],["The captain",4,3.2],["I have control",4,2.8],["I'm a doctor",4,2.7],["We've got this",4,3.52],["I'm with you",4,2.8],["The door shuts",4,1.76],["Headphone cables",4,1.3],["Don't look",5,3.84],["Stay with me",5,4.06],["He's breathing",5,3.26],["The hour",5,3.0],["Are we going home?",5,4.0],["Who's flying the plane?",5,1.63],["I don't know",5,2.4],["The window",5,1.21],["Whose jet?",5,2.6],["Nobody gets past",5,3.8],["We need help",5,3.6],["Prepare for landing",6,2.11],["Brace",6,2.4],["Unknown runway",6,3.0],["Touchdown",6,2.4],["The jolt",6,1.8],["Am Yisrael Chai",6,5.25],["The rudder",6,2.0],["Lights",6,2.2],["The camel comes home",6,3.6],["On his shoulders",6,3.1],["Not today",6,4.0],["The floor at Tabuk",7,3.2],["The camel",7,2.6],["Home",7,2.01],["End card",7,5.0],["VidBuddy",7,4.5]];
+  const reel = document.getElementById("reel"), readout = document.getElementById("readout"), head = reel.querySelector(".head");
+  const tc = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+  let t = 0;
+  BEATS.forEach(([title, act, d], i) => {
+    const block = document.createElement("i");
+    block.style.setProperty("--d", d);
+    block.style.setProperty("--c", `var(--a${act})`);
+    const at = t;
+    block.addEventListener("mouseenter", () => { readout.textContent = `BEAT ${String(i + 1).padStart(2, "0")} · ${tc(at)} · ${title}`; });
+    reel.insertBefore(block, head);
+    t += d;
+  });
+</script>
+
+</body>
+</html>

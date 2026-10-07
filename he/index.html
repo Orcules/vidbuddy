@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VidBuddy: הסרטון הזה נעשה בצ׳אט אחד">
+<meta property="og:description" content="עורך הווידאו שלכם ב-AI. מסבירים במילים שלכם מה רוצים, ומקבלים סרטון גמור. רשימת המתנה לקבוצה מצומצמת.">
+<meta property="og:locale" content="he_IL">
+<meta property="og:image" content="https://vidbuddy.studio/he/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/buddy.webp">
+<meta property="og:url" content="https://vidbuddy.studio/he/">
+<link rel="canonical" href="https://vidbuddy.studio/he/">
+<link rel="alternate" hreflang="he" href="https://vidbuddy.studio/he/">
+<link rel="alternate" hreflang="en" href="https://vidbuddy.studio/">
+<title>VidBuddy: הסרטון הזה נעשה בצ׳אט אחד</title>
+<meta name="description" content="VidBuddy: עורך וידאו ב-AI. מסבירים במילים שלכם מה רוצים, ומקבלים סרטון גמור. רשימת המתנה לקבוצה מצומצמת.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Geist:wght@700;800&display=swap">
+<style>
+  /* One committed world: the film's warm studio void, gold light, cream type. */
+  :root {
+    color-scheme: dark;
+    --bg: #0d0a07;
+    --bg-2: #15100b;
+    --panel: #1b150f;
+    --panel-2: #241c13;
+    --line: rgba(242, 181, 68, 0.16);
+    --line-soft: rgba(244, 236, 223, 0.08);
+    --ink: #f4ecdf;
+    --muted: #a8998a;
+    --dim: #6f6357;
+    --gold: #f2b544;
+    --gold-2: #ffd88a;
+    --gold-ink: #1d1406;
+    --client: #26303d;
+    --client-ink: #dfe8f3;
+    --red: #ff5a4f;
+    --gold-grad: linear-gradient(180deg, #fff1c4 0%, #f6c65a 42%, #d9951f 76%, #a8660f 100%);
+    --display: "Karantina", "Secular One", "Arial Narrow", sans-serif;
+    --body: "IBM Plex Sans Hebrew", "Assistant", "Segoe UI", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+    --latin: "Geist", "Inter", "Segoe UI", Arial, sans-serif;
+    --r: 22px;
+  }
+  html, body { background: var(--bg); }
+  body { color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .page { padding-inline: clamp(16px, 4vw, 48px); overflow-x: clip; position: relative; }
+  .wrap { max-width: 1160px; margin-inline: auto; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  a { color: var(--gold-2); }
+  :focus-visible { outline: 2px solid var(--gold-2); outline-offset: 3px; border-radius: 8px; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 700; }
+  p { margin: 0; }
+
+  /* the studio light behind everything */
+  .light { position: absolute; inset: 0 0 auto 0; height: 980px; pointer-events: none; z-index: 0;
+    background: radial-gradient(60% 55% at 70% 0%, rgba(255, 196, 102, 0.20), transparent 70%),
+                radial-gradient(40% 40% at 15% 30%, rgba(242, 181, 68, 0.07), transparent 70%); }
+  .page > .wrap { position: relative; z-index: 1; }
+
+  /* ---------------------------------------------------------------- top bar */
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px; }
+  .mark { font-family: var(--latin); font-weight: 800; font-size: 26px; letter-spacing: -0.035em; direction: ltr; display: flex; align-items: center; gap: 10px; }
+  .mark img { width: 34px; height: 34px; border-radius: 10px; object-fit: cover; object-position: 50% 40%; border: 1px solid var(--line); }
+  .mark b { font-weight: 800; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .rec { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.12em; color: var(--muted); display: flex; align-items: center; gap: 9px;
+    border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; white-space: nowrap; }
+  .rec i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px var(--red); animation: rec 1.6s steps(2, jump-none) infinite; }
+  @keyframes rec { 50% { opacity: 0.25; } }
+  .nav { display: flex; align-items: center; gap: 10px; }
+  .lang { font: 500 14px/1 var(--latin); color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; }
+  .lang:hover { border-color: rgba(242, 181, 68, 0.5); }
+
+  /* ---------------------------------------------------------------- hero */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(28px, 5vw, 72px); align-items: center;
+    padding-block: clamp(20px, 5vw, 56px) clamp(56px, 8vw, 96px); }
+  .tc { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; color: var(--gold); direction: ltr; text-align: right; display: block; margin-bottom: 18px; }
+  .tc span { color: var(--muted); }
+  .hero h1 { font-family: var(--display); font-size: clamp(58px, 8.4vw, 122px); line-height: 0.88; letter-spacing: -0.01em; }
+  .hero h1 em { white-space: nowrap; font-style: normal; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { margin-top: 22px; font-size: clamp(17px, 1.6vw, 20px); color: var(--ink); max-width: 33em; font-weight: 300; }
+  .lede strong { font-weight: 600; color: var(--gold-2); }
+
+  /* the email form = VidBuddy's own chat composer */
+  .composer { margin-top: 30px; display: flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px; max-width: 560px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transition: border-color 0.2s, box-shadow 0.2s; }
+  .composer:focus-within { border-color: rgba(242, 181, 68, 0.55); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 0 4px rgba(242, 181, 68, 0.10); }
+  .composer .plus { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--dim); font-size: 22px; }
+  .composer input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--ink); font: 500 17px/1.2 var(--body); padding: 12px 4px; outline: none; }
+  .composer input::placeholder { color: var(--dim); }
+  .composer button { flex: none; display: flex; align-items: center; gap: 10px; border: 0; cursor: pointer; border-radius: 999px; padding: 13px 20px 13px 14px;
+    background: var(--gold-grad); color: var(--gold-ink); font: 700 16px/1 var(--body); box-shadow: 0 8px 24px rgba(242, 181, 68, 0.28); transition: transform 0.15s; }
+  .composer button:hover { transform: translateY(-1px); }
+  .composer button:active { transform: translateY(1px); }
+  .composer button svg { width: 22px; height: 22px; padding: 4px; border-radius: 50%; background: rgba(29, 20, 6, 0.14); }
+  .composer button[disabled] { opacity: 0.7; cursor: progress; }
+  .note { margin-top: 12px; font-size: 14px; color: var(--muted); max-width: 560px; }
+  .note.err { color: #ffb4a8; }
+  .note.preview { color: var(--gold-2); }
+  /* after a sign-up the composer turns into Buddy's reply */
+  .reply { margin-top: 30px; max-width: 560px; display: flex; gap: 12px; align-items: flex-end; animation: pop 0.45s cubic-bezier(.2, 1.4, .4, 1) both; }
+  .reply img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; object-position: 50% 38%; border: 1px solid var(--line); flex: none; }
+  .reply div { background: var(--panel-2); border: 1px solid var(--line); border-radius: 22px 22px 22px 6px; padding: 14px 18px; font-size: 16.5px; }
+  .reply b { color: var(--gold-2); font-weight: 600; }
+  .reply bdi { font-family: var(--mono); font-size: 14.5px; color: var(--ink); }
+  @keyframes pop { from { transform: translateY(10px) scale(0.96); } to { transform: none; } }
+
+  /* the film in a phone */
+  .stage { justify-self: center; width: min(100%, 380px); }
+  .phone { position: relative; aspect-ratio: 9 / 19.2; border-radius: 52px; padding: 11px; background: linear-gradient(145deg, #3a2f22, #15100a 40%, #2b2218);
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 216, 138, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    transform: rotate(-2.5deg); }
+  .phone::before { content: ""; position: absolute; top: 22px; left: 50%; width: 96px; height: 26px; translate: -50% 0; border-radius: 20px; background: #050403; z-index: 2; }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: #000; }
+  .screen video, .screen img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sound { position: absolute; bottom: 18px; left: 50%; translate: -50% 0; z-index: 3; display: flex; align-items: center; gap: 8px; border: 0; cursor: pointer;
+    background: rgba(13, 10, 7, 0.72); color: var(--ink); backdrop-filter: blur(8px); border-radius: 999px; padding: 10px 16px; font: 600 14px/1 var(--body);
+    box-shadow: 0 0 0 1px rgba(255, 216, 138, 0.25); white-space: nowrap; }
+  .sound svg { width: 18px; height: 18px; }
+  .slate { margin-top: 22px; font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.1em; color: var(--muted); text-align: center; direction: ltr; }
+  .slate b { color: var(--gold); font-weight: 500; }
+
+  /* ---------------------------------------------------------------- sections */
+  section { padding-block: clamp(56px, 8vw, 104px); border-top: 1px solid var(--line-soft); }
+  .kicker { font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.16em; color: var(--gold); margin-bottom: 14px; display: block; }
+  h2 { font-family: var(--display); font-size: clamp(46px, 6.6vw, 88px); line-height: 0.92; }
+  h2 em { font-style: normal; color: var(--gold); }
+  .sub { margin-top: 16px; color: var(--muted); max-width: 36em; font-size: 18px; }
+
+  /* the ping-pong */
+  .pingpong { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .thread { background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 28px; padding: 22px; display: grid; gap: 12px; }
+  .who { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--line-soft); margin-bottom: 4px; }
+  .who i { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #3c4a5c, #222a35); display: grid; place-items: center; font-style: normal; font-size: 15px; color: var(--client-ink); }
+  .who b { font-weight: 600; }
+  .who small { color: var(--dim); font-family: var(--mono); font-size: 11.5px; margin-inline-start: auto; letter-spacing: 0.08em; }
+  .msg { justify-self: start; max-width: 88%; background: var(--client); color: var(--client-ink); border-radius: 6px 20px 20px 20px; padding: 11px 15px 8px; font-size: 16.5px;
+    animation: in 0.5s cubic-bezier(.2, 1.3, .4, 1) both; }
+  .msg time { display: block; font-family: var(--mono); font-size: 11px; color: rgba(223, 232, 243, 0.5); margin-top: 3px; text-align: left; direction: ltr; }
+  .msg:nth-of-type(2) { animation-delay: 0.25s; } .msg:nth-of-type(3) { animation-delay: 0.5s; }
+  .typing { justify-self: start; display: flex; gap: 5px; padding: 12px 16px; background: var(--client); border-radius: 6px 20px 20px 20px; }
+  .typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--client-ink); opacity: 0.55; animation: dot 1.2s infinite; }
+  .typing i:nth-child(2) { animation-delay: 0.15s; } .typing i:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes in { from { transform: translateY(14px) scale(0.94); } to { transform: none; } }
+  @keyframes dot { 0%, 60%, 100% { transform: none; } 30% { transform: translateY(-5px); } }
+  .punch { display: grid; gap: 6px; font-family: var(--display); font-size: clamp(40px, 5vw, 66px); line-height: 1; }
+  .punch span:nth-child(1) { color: var(--muted); }
+  .punch span:nth-child(2) { color: var(--ink); }
+  .punch span:nth-child(3) { color: var(--red); }
+  .punch + p { margin-top: 22px; color: var(--muted); max-width: 30em; }
+
+  /* one message instead: fewer eagles */
+  .fix { margin-top: clamp(48px, 7vw, 80px); display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+  .fix h3 { font-family: var(--display); font-size: clamp(38px, 4.6vw, 60px); line-height: 0.95; }
+  .fix h3 em { font-style: normal; color: var(--gold); }
+  .chat { margin-top: 22px; display: grid; gap: 10px; }
+  .me { justify-self: end; background: var(--gold-grad); color: var(--gold-ink); border-radius: 20px 6px 20px 20px; padding: 11px 16px; font-weight: 500; max-width: 92%; }
+  .bud { justify-self: start; display: flex; gap: 10px; align-items: flex-end; }
+  .bud img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: 50% 38%; border: 1px solid var(--line); }
+  .bud span { background: var(--panel-2); border: 1px solid var(--line); border-radius: 20px 20px 20px 6px; padding: 10px 15px; font-style: italic; color: #d9cdf5; letter-spacing: 0.02em; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--panel); border: 1px solid var(--line-soft); }
+  .card img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }
+  .card .tag { position: absolute; top: 12px; right: 12px; font-family: var(--mono); font-size: 13px; padding: 5px 10px; border-radius: 8px; background: rgba(13, 10, 7, 0.75); color: var(--ink); direction: ltr; }
+  .card.after { border-color: rgba(242, 181, 68, 0.6); box-shadow: 0 0 0 1px rgba(242, 181, 68, 0.35), 0 24px 60px rgba(242, 181, 68, 0.12); }
+  .card.after .tag { background: var(--gold); color: var(--gold-ink); }
+  .card .cap { position: absolute; inset: auto 0 0 0; padding: 30px 14px 12px; background: linear-gradient(transparent, rgba(0, 0, 0, 0.75)); font-size: 14px; color: #e9dfd0; }
+
+  /* any video, in your own words */
+  .grid4 { margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .ask { display: grid; gap: 12px; align-content: start; }
+  .ask .me { justify-self: stretch; font-size: 15px; line-height: 1.45; }
+  .ask figure { margin: 0; position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 3 / 4; background: var(--panel); }
+  .ask figure img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s; }
+  .ask:hover figure img { transform: scale(1.04); }
+  .ask figcaption { position: absolute; bottom: 10px; right: 10px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; padding: 5px 9px; border-radius: 8px;
+    background: rgba(13, 10, 7, 0.75); color: var(--gold-2); }
+
+  /* how it works: a track on an edit timeline */
+  .timeline { margin-top: 44px; background: var(--bg-2); border: 1px solid var(--line-soft); border-radius: 24px; padding: 18px 18px 22px; }
+  .ruler { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); font-family: var(--mono); font-size: 11.5px; color: var(--dim);
+    border-bottom: 1px solid var(--line-soft); padding-bottom: 8px; margin-bottom: 14px; letter-spacing: 0.06em; }
+  .ruler span { border-inline-start: 1px solid var(--line-soft); padding-inline-start: 6px; }
+  .track { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+  .clip { border-radius: 12px; padding: 14px 14px 16px; min-height: 150px; display: grid; align-content: space-between; gap: 14px;
+    background: linear-gradient(180deg, rgba(242, 181, 68, 0.16), rgba(242, 181, 68, 0.05)); border: 1px solid rgba(242, 181, 68, 0.28); }
+  .clip:nth-child(even) { background: linear-gradient(180deg, rgba(242, 181, 68, 0.10), rgba(242, 181, 68, 0.03)); }
+  .clip:last-of-type { background: var(--gold-grad); color: var(--gold-ink); border-color: transparent; }
+  .clip:last-of-type small { color: rgba(29, 20, 6, 0.7); }
+  .clip b { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; opacity: 0.75; }
+  .clip h3 { font-size: 18.5px; line-height: 1.25; font-weight: 600; }
+  .clip small { display: block; font-size: 14px; color: var(--muted); margin-top: 6px; line-height: 1.45; }
+  .head { position: absolute; top: -26px; bottom: -8px; left: 0; width: 2px; background: var(--red); box-shadow: 0 0 12px var(--red); animation: play 9s linear infinite; }
+  .head::before { content: ""; position: absolute; top: -2px; left: -6px; border: 7px solid transparent; border-top-color: var(--red); }
+  @keyframes play { from { left: 100%; } to { left: 0%; } }
+
+  /* who it's for */
+  .three { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+  .three div { padding: 26px 0 8px; padding-inline-end: 28px; }
+  .three div + div { padding-inline-start: 28px; border-inline-start: 1px solid var(--line-soft); }
+  .three h3 { font-family: var(--display); font-size: 40px; line-height: 1; font-weight: 700; }
+  .three p { margin-top: 12px; color: var(--muted); }
+
+  /* founder note */
+  .why { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .why figure { margin: 0; border-radius: 26px; overflow: hidden; aspect-ratio: 4 / 5; border: 1px solid var(--line-soft); }
+  .why figure img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 60%; display: block; }
+  .why blockquote { margin: 0; font-size: clamp(18px, 1.7vw, 21px); line-height: 1.75; font-weight: 300; max-width: 34em; display: grid; gap: 16px; }
+  .why blockquote strong { font-weight: 600; color: var(--gold-2); }
+  .why cite { display: block; margin-top: 8px; font-style: normal; font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; color: var(--muted); }
+
+  /* last call */
+  .last { text-align: center; }
+  .last h2 { font-size: clamp(54px, 8vw, 112px); }
+  .last .sub { margin-inline: auto; }
+  .last .composer, .last .note, .last .reply { margin-inline: auto; }
+  .last .note { text-align: center; }
+  footer { padding-block: 34px 44px; border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 12.5px; color: var(--dim); letter-spacing: 0.06em; }
+
+  /* ---------------------------------------------------------------- narrow screens */
+  @media (max-width: 900px) {
+    .hero, .pingpong, .fix, .why { grid-template-columns: minmax(0, 1fr); }
+    .stage { width: min(100%, 320px); }
+    .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .three { grid-template-columns: minmax(0, 1fr); }
+    .three div, .three div + div { padding-inline: 0; border-inline-start: 0; border-bottom: 1px solid var(--line-soft); padding-bottom: 22px; }
+    .ruler { display: none; }
+    .track { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+    .clip { min-height: 0; grid-template-columns: auto 1fr; align-items: baseline; gap: 14px; }
+    .head { display: none; }
+    .why figure { aspect-ratio: 16 / 10; }
+  }
+  @media (max-width: 520px) {
+    .composer { flex-wrap: wrap; border-radius: 26px; }
+    .composer .plus { display: none; }
+    .composer input { flex-basis: 100%; padding: 12px 14px; }
+    .composer button { width: 100%; justify-content: center; }
+    .rec { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body style="margin:0">
+
+
+<div class="page" dir="rtl" lang="he">
+  <div class="light" aria-hidden="true"></div>
+  <div class="wrap">
+    <header class="bar">
+      <div class="mark"><img src="img/buddy.webp" alt="" width="34" height="34"><span>Vid<b>Buddy</b></span></div>
+      <nav class="nav"><div class="rec"><i></i>רשימת המתנה פתוחה</div><a class="lang" href="../" lang="en" dir="ltr" hreflang="en">English</a></nav>
+    </header>
+
+    <!-- ============================================================ hero -->
+    <main>
+      <div class="hero">
+        <div>
+          <span class="tc">00:00:00:00 <span>· FINAL_CUT.mp4</span></span>
+          <h1>הסרטון הזה<br>נעשה <em>בצ׳אט אחד.</em></h1>
+          <p class="lede">VidBuddy הופך כל אחד לעורך וידאו. מסבירים לו במילים שלכם מה אתם רוצים, כמו שהייתם מסבירים לעורך, והוא מכין את הסרטון: <strong>תסריט, צילומים, קריינות, מוזיקה ועריכה.</strong></p>
+          <div class="signup" data-id="1">
+            <form class="composer" novalidate>
+              <span class="plus" aria-hidden="true">+</span>
+              <label class="sr" for="email1">כתובת המייל שלך</label>
+              <input id="email1" name="email" type="email" inputmode="email" autocomplete="email" placeholder="המייל שלך…" dir="auto" required>
+              <input class="hp" id="company1" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <button type="submit">שמרו לי מקום
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              </button>
+            </form>
+            <p class="note" aria-live="polite">קבוצה קטנה תנסה ראשונה. בלי ספאם: מייל אחד, כשמגיע התור שלכם.</p>
+          </div>
+        </div>
+
+        <div class="stage">
+          <div class="phone">
+            <div class="screen">
+              <video id="film" src="film.mp4" poster="img/poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="סרט התדמית של VidBuddy, שנעשה כולו עם VidBuddy"></video>
+              <button class="sound" id="sound" type="button" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path id="wave" d="M16 9a4 4 0 0 1 0 6M19 6a8 8 0 0 1 0 12"/></svg>
+                <span id="soundLabel">לצפייה עם סאונד</span>
+              </button>
+            </div>
+          </div>
+          <p class="slate"><b>VIDBUDDY</b> · PROMO · 1:26 · MADE WITH VIDBUDDY</p>
+        </div>
+      </div>
+
+      <!-- ============================================================ the ping-pong -->
+      <section>
+        <div class="pingpong">
+          <div class="thread" aria-label="הודעות מלקוח">
+            <div class="who"><i>ל</i><b>הלקוח</b><small>WhatsApp · 23:41</small></div>
+            <p class="msg">נראה מעולה! רק אפשר שהמוזיקה תהיה טיפה יותר שמחה? 🙂<time>23:41</time></p>
+            <p class="msg">ואולי שהלוגו יהיה קצת יותר גדול?<time>23:42</time></p>
+            <p class="msg">אה, ואם כבר, אפשר גם גרסה לטיקטוק?<time>23:58</time></p>
+            <div class="typing" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div>
+            <span class="kicker">כל עורך וידאו מכיר את זה</span>
+            <p class="punch"><span>ללקוח זה שינוי של דקה.</span><span>לעורך זה עוד שבוע של עבודה.</span><span>ובסוף, זו עוד חשבונית.</span></p>
+            <p>תיאום ציפיות, סבבי תיקונים, ועלויות שמגיעות בקלות לאלפי ועשרות אלפי שקלים. והרבה אנשים עם רעיון מצוין פשוט מוותרים על וידאו.</p>
+          </div>
+        </div>
+
+        <div class="fix">
+          <div>
+            <span class="kicker">ב-VidBuddy</span>
+            <h3>שינוי הוא <em>הודעה אחת.</em></h3>
+            <div class="chat">
+              <p class="me">אהבתי. אולי… פחות נשרים? 🦅</p>
+              <div class="bud"><img src="img/buddy.webp" alt="באדי"><span>פחות נשרים. קיבלתי.</span></div>
+            </div>
+          </div>
+          <div class="cards">
+            <figure class="card"><img src="img/eagles.webp" alt="אבי על פסגה בשחר, מוקף בשבעה נשרים" loading="lazy"><span class="tag">01 · v1</span><figcaption class="cap">שבעה נשרים</figcaption></figure>
+            <figure class="card after"><img src="img/epic.webp" alt="אותו שוט עם נשר אחד" loading="lazy"><span class="tag">01 · v2</span><figcaption class="cap">נשר אחד. אותו שוט.</figcaption></figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ any video -->
+      <section>
+        <span class="kicker">כל סרטון, במילים שלכם</span>
+        <h2>מה שבא לכם. <em>תכתבו.</em></h2>
+        <p class="sub">צילומים, אנימציה, מושן גרפיקס, פרסומת, ברכה. כל התמונות כאן הן שוטים מהסרטון בראש העמוד.</p>
+        <div class="grid4">
+          <div class="ask"><p class="me">החתול שלי. אבל כמנכ״ל.</p><figure><img src="img/cat.webp" alt="חתול בחליפה במסיבת עיתונאים" loading="lazy"><figcaption>סאטירה</figcaption></figure></div>
+          <div class="ask"><p class="me">יום הולדת 60 לאמא. שתבכה (מהסוג הטוב).</p><figure><img src="img/mom.webp" alt="משפחה חוגגת יום הולדת עם עוגה ונרות" loading="lazy"><figcaption>רגש</figcaption></figure></div>
+          <div class="ask"><p class="me">פרסומת אפית לדוכן הפלאפל שלי. כמו שר הטבעות.</p><figure><img src="img/epic.webp" alt="אבי מחזיק פלאפל על פסגה עם נשר" loading="lazy"><figcaption>אפי</figcaption></figure></div>
+          <div class="ask"><p class="me">שהגיבור מהציור של הבת שלי יעוף.</p><figure><img src="img/drawing.webp" alt="ציור ילדים של כדור פלאפל עם גלימה" loading="lazy"><figcaption>אנימציה</figcaption></figure></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ how it works -->
+      <section>
+        <span class="kicker">איך זה עובד</span>
+        <h2>מהצ׳אט <em>לסרטון גמור.</em></h2>
+        <div class="timeline" role="list" aria-label="שלבי העבודה">
+          <div class="ruler" aria-hidden="true"><span>00:00</span><span>00:05</span><span>00:10</span><span>00:15</span><span>00:20</span><span>00:25</span></div>
+          <div class="track">
+            <div class="clip" role="listitem"><b>01</b><div><h3>מספרים מה רוצים</h3><small>במילים שלכם, כמו לעורך.</small></div></div>
+            <div class="clip" role="listitem"><b>02</b><div><h3>מעלים מה שיש</h3><small>תמונות, לוגו, שחקנים, דמויות.</small></div></div>
+            <div class="clip" role="listitem"><b>03</b><div><h3>בוחרים אורך ופלטפורמה</h3><small>טיקטוק, רילס, יוטיוב. 15 עד 60 שניות.</small></div></div>
+            <div class="clip" role="listitem"><b>04</b><div><h3>מאשרים תסריט וסטוריבורד</h3><small>לפני שמצלמים שוט אחד.</small></div></div>
+            <div class="clip" role="listitem"><b>05</b><div><h3>מתקנים במילים</h3><small>״יותר שמח״. ״פחות נשרים״.</small></div></div>
+            <div class="clip" role="listitem"><b>06</b><div><h3>מקבלים סרטון גמור</h3><small>צילומים, קריינות, מוזיקה ועריכה.</small></div></div>
+            <span class="head" aria-hidden="true"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ who it's for -->
+      <section>
+        <span class="kicker">בשביל מי</span>
+        <h2>בשבילכם. <em>וגם בשבילי.</em></h2>
+        <div class="three">
+          <div><h3>יש לכם עסק</h3><p>וידאו בלי לפתוח פרויקט, בלי הצעת מחיר, ובלי לחכות שבועות.</p></div>
+          <div><h3>אתם יוצרי תוכן</h3><p>להוציא הרבה, מהר, בכל פורמט, בלי לשבת לילות על עריכה.</p></div>
+          <div><h3>אתם עורכי וידאו</h3><p>יותר זמן ליצירה, ופחות ל״רק עוד שינוי קטן״.</p></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ why -->
+      <section>
+        <div class="why">
+          <figure><img src="img/bow.webp" alt="באדי, רובוט מצלמה קטן, משתחווה על דלפק דוכן הפלאפל בלילה" loading="lazy"></figure>
+          <div>
+            <span class="kicker">למה בניתי את זה</span>
+            <blockquote>
+              <p>אני עורך וידאו, ואת השיחות האלה אני מכיר טוב. מצד אחד, לקוחות שרוצים סרטון טוב ומגלים כמה זה עולה וכמה זמן זה לוקח. מצד שני, עורכים, גם אני, שנשחקים בסבבי תיקונים.</p>
+              <p>לפני שנה התחלתי לבנות את VidBuddy, ולקחתי איתי את כל מה שלמדתי בעריכה ובאנימציה. הדבר שהכי היה חשוב לי: <strong>שהתוצאה לא תרגיש כמו AI.</strong> שזה ייראה כמו סרטון שמישהו באמת ישב עליו.</p>
+              <cite>המייסד של VidBuddy · עורך וידאו</cite>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ last call -->
+      <section class="last">
+        <span class="kicker">גישה מוקדמת</span>
+        <h2>רוצים לנסות <em>ראשונים?</em></h2>
+        <p class="sub">לפני שהכלי נפתח לכולם, קבוצה קטנה תנסה אותו ותגיד לי מה היא באמת חושבת, כולל מה לא עובד.</p>
+        <div class="signup" data-id="2">
+          <form class="composer" novalidate>
+            <span class="plus" aria-hidden="true">+</span>
+            <label class="sr" for="email2">כתובת המייל שלך</label>
+            <input id="email2" name="email" type="email" inputmode="email" autocomplete="email" placeholder="המייל שלך…" dir="auto" required>
+            <input class="hp" id="company2" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <button type="submit">שמרו לי מקום
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </form>
+          <p class="note" aria-live="polite">בלי ספאם. מייל אחד, כשמגיע התור שלכם.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer><span>הסרטון בראש העמוד נעשה כולו עם VidBuddy</span><span dir="ltr">© 2026 VidBuddy</span></footer>
+  </div>
+</div>
+
+<script>
+  // Where sign-ups go: the Google Sheet's Apps Script web app (apps_script.gs), set by build.py for the hosted site.
+  // Left empty (the preview), the form runs but nothing is stored, and the page says so.
+  const WAITLIST_ENDPOINT = "https://script.google.com/macros/s/AKfycbz8jJcgBih9cdlMErbDFRhC88pQAaZh03Tj6iakeo6dYQpt6pYxNh0skTWxj3qOUA3tsg/exec";
+
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  async function store(email, source, company) {
+    if (!WAITLIST_ENDPOINT) return "preview";
+    // text/plain keeps it a "simple" request, so it also works with endpoints that don't answer CORS preflights
+    await fetch(WAITLIST_ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ email, source, company, at: new Date().toISOString() }) });
+    return "saved";
+  }
+
+  document.querySelectorAll(".signup").forEach((box) => {
+    const form = box.querySelector("form"), input = box.querySelector("input[type=email]"), button = box.querySelector("button"), note = box.querySelector(".note");
+    const idle = note.textContent;
+    input.addEventListener("input", () => { note.textContent = idle; note.className = "note"; });
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = input.value.trim();
+      if (!EMAIL.test(email)) {
+        note.textContent = "צריך כתובת מייל מלאה, למשל name@gmail.com";
+        note.className = "note err";
+        input.focus();
+        return;
+      }
+      button.disabled = true;
+      try {
+        const how = await store(email, "landing-" + box.dataset.id, box.querySelector(".hp").value);
+        const reply = document.createElement("div");
+        reply.className = "reply";
+        reply.innerHTML = '<img src="img/buddy.webp" alt=""><div><b>קיבלתי! 🎬</b> שמרתי לך מקום. אכתוב ל-<bdi></bdi> כשיגיע התור שלך.</div>';
+        reply.querySelector("bdi").textContent = email;
+        form.replaceWith(reply);
+        if (how === "preview") {
+          note.textContent = "ההרשמה עוד לא מחוברת, אז המייל הזה לא נשמר. נסו שוב בעוד כמה דקות.";
+          note.className = "note preview";
+        } else {
+          note.textContent = "";
+        }
+      } catch (err) {
+        button.disabled = false;
+        note.textContent = "ההרשמה לא עברה, כנראה בעיית חיבור. נסו שוב בעוד רגע.";
+        note.className = "note err";
+      }
+    });
+  });
+
+  // the film: muted autoplay, sound on a tap (from the start)
+  const film = document.getElementById("film"), sound = document.getElementById("sound"), label = document.getElementById("soundLabel");
+  sound.addEventListener("click", () => {
+    const on = film.muted;
+    if (on) { film.currentTime = 0; }
+    film.muted = !on;
+    film.play().catch(() => {});
+    sound.setAttribute("aria-pressed", String(on));
+    label.textContent = on ? "השתקה" : "לצפייה עם סאונד";
+    document.getElementById("wave").style.opacity = on ? 1 : 0.35;
+  });
+</script>
+
+</body>
+</html>
